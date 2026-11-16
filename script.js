@@ -29,7 +29,7 @@ let chatHistory = [];
 
 /* Add a secure backend URL here only after deploying the backend.
    Never place an API key in this public JavaScript file. */
-const CHAT_API_URL = "";
+const CHAT_API_URL = "https://facegeom-ai-chat.onrender.com/api/chat";
 
 function setStatus(message) { if (statusText) statusText.textContent = message; }
 function setMetric(id, value) { const el = $(id); if (el) el.textContent = value; }
