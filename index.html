@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
 </head>
-
 <body>
+
 <header>
     <div class="logo">FACEGEOM<span> AI</span></div>
     <div class="header-tag">MATHEMATICS × ARTIFICIAL INTELLIGENCE</div>
@@ -49,8 +48,10 @@
             <div class="controls">
                 <button id="startCamera">START CAMERA</button>
                 <button id="stopCamera">STOP CAMERA</button>
+
                 <label for="imageInput" class="upload-button">UPLOAD PHOTO</label>
                 <input type="file" id="imageInput" accept="image/*" hidden>
+
                 <button id="scanFace" class="scan-button" disabled>
                     START 5-SECOND SCAN
                 </button>
@@ -185,75 +186,140 @@
         </p>
     </section>
 
-    <!-- FINAL SCAN REPORT -->
+    <!-- FINAL RESULTS POPUP -->
     <section class="final-report" id="finalReport">
-        <div class="section-heading">
-            <p class="eyebrow">SCAN COMPLETE</p>
-            <h2>Your Final Analysis</h2>
-            <p id="reportStatus">Your final results will appear here.</p>
+        <div class="report-modal">
+
+            <div class="report-topbar">
+                <div>
+                    <p class="eyebrow">FACEGEOM AI / ANALYSIS REPORT</p>
+                    <p class="report-top-caption">PERSONAL FACIAL GEOMETRY PROFILE</p>
+                </div>
+                <button type="button" class="report-close" id="closeReport" aria-label="Close report">×</button>
+            </div>
+
+            <div class="report-tabs">
+                <button type="button" class="report-tab active" data-tab="overview">ANALYSIS</button>
+                <button type="button" class="report-tab" data-tab="assistant">AI STYLE ADVISOR</button>
+            </div>
+
+            <!-- ANALYSIS TAB -->
+            <div class="report-tab-content active" id="overviewTab">
+                <div class="section-heading">
+                    <p class="eyebrow">SCAN COMPLETE</p>
+                    <h2>Your Final Analysis</h2>
+                    <p id="reportStatus">Your final results will appear here.</p>
+                </div>
+
+                <div class="report-grid">
+                    <div class="report-card">
+                        <small>FACIAL SYMMETRY</small>
+                        <strong id="finalSymmetry">--</strong>
+                        <p>Estimated left-right landmark balance</p>
+                    </div>
+
+                    <div class="report-card">
+                        <small>GEOMETRIC HARMONY</small>
+                        <strong id="finalHarmony">--</strong>
+                        <p>Experimental proportion estimate</p>
+                    </div>
+
+                    <div class="report-card">
+                        <small>ESTIMATED FACE SHAPE</small>
+                        <strong id="finalFaceShape">--</strong>
+                        <p>Approximate classification from facial proportions</p>
+                    </div>
+
+                    <div class="report-card">
+                        <small>FACE WIDTH / HEIGHT</small>
+                        <strong id="finalRatio">--</strong>
+                        <p>Geometric ratio</p>
+                    </div>
+                </div>
+
+                <div class="report-details">
+                    <h3>FACIAL MEASUREMENTS</h3>
+
+                    <div class="report-detail-row">
+                        <span>Face width</span>
+                        <strong id="finalWidth">--</strong>
+                    </div>
+
+                    <div class="report-detail-row">
+                        <span>Face height</span>
+                        <strong id="finalHeight">--</strong>
+                    </div>
+
+                    <div class="report-detail-row">
+                        <span>Eye spacing</span>
+                        <strong id="finalEyeSpacing">--</strong>
+                    </div>
+
+                    <div class="report-detail-row">
+                        <span>Jaw proportion</span>
+                        <strong id="finalJaw">--</strong>
+                    </div>
+                </div>
+
+                <div class="report-details">
+                    <h3>ANALYSIS OBSERVATIONS</h3>
+                    <p id="finalObservation">Complete a scan to view observations.</p>
+
+                    <h3>INITIAL STYLE SUGGESTIONS</h3>
+                    <p id="finalSuggestions">Suggestions will appear here.</p>
+                </div>
+
+                <p class="report-note">
+                    Results are experimental estimates based on 2D facial landmarks.
+                    Face shape classification is approximate. These results are not
+                    medical assessments or scientifically validated attractiveness ratings.
+                </p>
+
+                <button id="rescanFace" class="scan-button report-rescan">
+                    SCAN AGAIN
+                </button>
+            </div>
+
+            <!-- AI STYLE ADVISOR TAB -->
+            <div class="report-tab-content" id="assistantTab">
+                <div class="chat-heading">
+                    <p class="eyebrow">PERSONAL STYLE CONSULTATION</p>
+                    <h2>FACEGEOM <span>AI</span></h2>
+                    <p>
+                        Ask about your estimated face shape, hairstyles,
+                        grooming and clothing colours.
+                    </p>
+                </div>
+
+                <div class="chat-suggestions">
+                    <button type="button" class="chat-prompt">Which hairstyles suit my face?</button>
+                    <button type="button" class="chat-prompt">Suggest a grooming style</button>
+                    <button type="button" class="chat-prompt">What clothing colours should I try?</button>
+                </div>
+
+                <div class="chat-messages" id="chatMessages" aria-live="polite">
+                    <div class="chat-message assistant-message">
+                        <strong>FACEGEOM AI</strong>
+                        <p>Your scan results can help guide hairstyle and grooming suggestions. What would you like to explore?</p>
+                    </div>
+                </div>
+
+                <form class="chat-input-area" id="chatForm">
+                    <input
+                        type="text"
+                        id="chatInput"
+                        placeholder="Ask about your results or personal style..."
+                        autocomplete="off"
+                        maxlength="500"
+                    >
+                    <button type="submit" id="chatSend">SEND</button>
+                </form>
+
+                <p class="chat-disclaimer" id="chatStatus">
+                    Style guidance is advisory. Colour suggestions cannot reliably determine skin undertone from a webcam scan.
+                </p>
+            </div>
         </div>
-
-        <div class="report-grid">
-            <div class="report-card">
-                <small>FACIAL SYMMETRY</small>
-                <strong id="finalSymmetry">--</strong>
-                <p>Estimated left-right landmark balance</p>
-            </div>
-
-            <div class="report-card">
-                <small>GEOMETRIC HARMONY</small>
-                <strong id="finalHarmony">--</strong>
-                <p>Experimental proportion estimate</p>
-            </div>
-
-            <div class="report-card">
-                <small>ESTIMATED FACE SHAPE</small>
-                <strong id="finalFaceShape">--</strong>
-                <p>Approximate classification from facial proportions</p>
-            </div>
-
-            <div class="report-card">
-                <small>FACE WIDTH / HEIGHT</small>
-                <strong id="finalRatio">--</strong>
-                <p>Geometric ratio</p>
-            </div>
-        </div>
-
-        <div class="report-details">
-            <h3>FACIAL MEASUREMENTS</h3>
-            <div class="report-detail-row">
-                <span>Face width</span>
-                <strong id="finalWidth">--</strong>
-            </div>
-            <div class="report-detail-row">
-                <span>Face height</span>
-                <strong id="finalHeight">--</strong>
-            </div>
-            <div class="report-detail-row">
-                <span>Eye spacing</span>
-                <strong id="finalEyeSpacing">--</strong>
-            </div>
-            <div class="report-detail-row">
-                <span>Jaw proportion</span>
-                <strong id="finalJaw">--</strong>
-            </div>
-        </div>
-
-        <div class="report-details">
-            <h3>ANALYSIS OBSERVATIONS</h3>
-            <p id="finalObservation">Complete a scan to view observations.</p>
-
-            <h3>STYLE SUGGESTIONS</h3>
-            <p id="finalSuggestions">Suggestions will appear here.</p>
-        </div>
-
-        <button id="rescanFace" class="scan-button">SCAN AGAIN</button>
-
-        <p class="report-note">
-            Results are experimental estimates based on 2D facial landmarks.
-            Face shape classification is approximate. These results are not
-            medical assessments or scientifically validated attractiveness ratings.
-        </p>
     </section>
 
     <section class="math-section">
